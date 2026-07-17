@@ -136,9 +136,9 @@ body{
 
 .vinyl{
 
-    width:240px;
+    width:340px;
 
-    height:240px;
+    height:340px;
 
     border-radius:50%;
 
@@ -392,5 +392,19 @@ body{
     .actions button{
 
         width:100%;
+
+        
+.vinyl{
+    animation: spin 14s linear infinite;
+}
+
+@keyframes spin{
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+
     }
 }
