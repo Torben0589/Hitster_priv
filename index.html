@@ -3,63 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hitster Privat</title>
+    <title>Hitster Party Game</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="dashboard">
+<div class="app">
 
-    <header class="topbar">
-        <div class="logo">
-            🎵 Hitster Privat
+    <header class="app-header">
+
+        <div>
+            <h1>Hitster Party Game</h1>
+            <p>Errate Titel, Interpret und Erscheinungsjahr</p>
         </div>
 
-        <button class="settings-btn">
-            ⚙️
-        </button>
+        <div class="header-actions">
+
+            <button class="nav-btn active">
+                Spiel
+            </button>
+
+            <button class="nav-btn">
+                Einstellungen
+            </button>
+
+            <button class="nav-btn">
+                Datenbank
+            </button>
+
+        </div>
+
     </header>
 
-    <div class="content">
+    <div class="layout-grid">
 
         <!-- LINKE SEITE -->
 
-        <div class="main-panel">
+        <div class="card game-card">
 
-            <div class="song-card">
+            <div class="game-topline">
 
-                <div class="card-header">
-                    <span id="cardNumber">Karte #1</span>
+                <div>
+                    <span class="small-label">
+                        AKTUELLE RUNDE
+                    </span>
+
+                    <h2>Noch kein Spiel gestartet</h2>
                 </div>
 
-                <div class="vinyl-container">
+                <button class="primary-btn">
+                    Neues Spiel starten
+                </button>
 
-                    <div class="vinyl">
-                        <div class="vinyl-center">
+            </div>
+
+            <div class="player-box">
+
+                <div class="disc-area">
+
+                    <div class="disc">
+
+                        <div class="disc-inner">
                             ♪
                         </div>
+
                     </div>
 
                 </div>
 
-                <div id="songDisplay">
+                <div class="timer-area">
 
-                    <h2>🎵 Unbekannter Song</h2>
+                    <span class="small-label">
+                        45-SEKUNDEN-TIMER
+                    </span>
+
+                    <div class="timer-display">
+                        45
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+
+                    <div class="player-actions">
+
+                        <button class="secondary-btn">
+                            Timer starten
+                        </button>
+
+                        <button class="secondary-btn">
+                            Stoppen
+                        </button>
+
+                    </div>
 
                 </div>
 
-                <div class="actions">
+            </div>
 
-                    <button id="playButton">
-                        🎧 Song suchen
-                    </button>
+            <div class="reveal-box">
 
-                    <button id="revealButton">
-                        👀 Auflösen
-                    </button>
+                <div class="eye-icon">
+                    👁️
+                </div>
 
-                    <button id="nextButton">
-                        ➡️ Nächste Karte
+                <h3>Songdaten sind verdeckt</h3>
+
+                <p>
+                    Drücke erst auf „Lösen“, wenn alle geraten haben.
+                </p>
+
+            </div>
+
+            <div class="game-actions">
+
+                <button class="primary-btn">
+                    Lösen
+                </button>
+
+                <button class="secondary-btn">
+                    Nächster Song
+                </button>
+
+            </div>
+
+            <div class="points-box">
+
+                <h3>Punkte vergeben</h3>
+
+                <div class="points-grid">
+
+                    <div class="form-group">
+
+                        <label>Team</label>
+
+                        <select>
+                            <option>Team 1</option>
+                            <option>Team 2</option>
+                        </select>
+
+                    </div>
+
+                    <label class="check-card">
+                        <input type="checkbox">
+                        <span>
+                            <strong>Titel</strong>
+                            <small>+3 Punkte</small>
+                        </span>
+                    </label>
+
+                    <label class="check-card">
+                        <input type="checkbox">
+                        <span>
+                            <strong>Interpret</strong>
+                            <small>+1 Punkt</small>
+                        </span>
+                    </label>
+
+                    <label class="check-card">
+                        <input type="checkbox">
+                        <span>
+                            <strong>Jahr</strong>
+                            <small>+1 Punkt</small>
+                        </span>
+                    </label>
+
+                    <button class="success-btn">
+                        Punkte buchen
                     </button>
 
                 </div>
@@ -70,60 +181,78 @@
 
         <!-- RECHTE SEITE -->
 
-        <div class="side-panel">
+        <aside class="card sidebar-card">
 
-            <div class="panel-box">
+            <div class="sidebar-section">
 
-                <h3>Spielstand</h3>
+                <h2>Scoreboard</h2>
 
-                <div class="player-row">
-                    <span>Spieler 1</span>
+                <div class="scoreboard">
 
-                    <span id="score1">0</span>
+                    <div class="score-item">
 
-                    <button onclick="addPoint(1)">+</button>
+                        <div class="score-name">
+                            <strong>Team 1</strong>
+                            <span>0</span>
+                        </div>
+
+                        <div class="score-bar">
+                            <div class="score-fill"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="score-item">
+
+                        <div class="score-name">
+                            <strong>Team 2</strong>
+                            <span>0</span>
+                        </div>
+
+                        <div class="score-bar">
+                            <div class="score-fill"></div>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="player-row">
-                    <span>Spieler 2</span>
+                <button class="danger-outline-btn">
+                    Punkte zurücksetzen
+                </button>
 
-                    <span id="score2">0</span>
+            </div>
 
-                    <button onclick="addPoint(2)">+</button>
+            <div class="sidebar-section">
+
+                <h2>Status</h2>
+
+                <div class="status-box">
+                    Bereit. Starte ein neues Spiel.
                 </div>
 
             </div>
 
-            <div class="panel-box">
-                <h3>Einstellungen</h3>
+            <div class="sidebar-section">
 
-                <p>
-                    Apple Music Suche
-                </p>
+                <h2>Spielregeln</h2>
 
-                <p>
-                    Private Hitster Version
-                </p>
+                <ul class="rules-list">
+                    <li>Titel richtig: 3 Punkte</li>
+                    <li>Interpret richtig: 1 Punkt</li>
+                    <li>Jahr richtig: 1 Punkt</li>
+                    <li>Song läuft maximal 45 Sekunden</li>
+                </ul>
 
             </div>
 
-            <div class="panel-box">
-                <h3>Hilfe</h3>
-
-                <p>
-                    Song suchen → Song hören →
-                    Jahr erraten →
-                    Auflösen.
-                </p>
-            </div>
-
-        </div>
+        </aside>
 
     </div>
 
 </div>
 
-<script.jsscript>
+<script src="script.js"></script>
 
 </body>
 </html>
