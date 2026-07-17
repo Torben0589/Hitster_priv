@@ -1,3 +1,17 @@
+:root{
+    --bg:#0b1220;
+    --card:#1e293b;
+    --card-dark:#09142f;
+    --border:#46556f;
+    --primary:#7c3aed;
+    --primary-hover:#8b5cf6;
+    --secondary:#34435d;
+    --success:#3db991;
+    --danger:#ef4444;
+    --text:#ffffff;
+    --muted:#aeb8c8;
+}
+
 *{
     margin:0;
     padding:0;
@@ -5,406 +19,378 @@
 }
 
 body{
-
-    font-family:Inter,Arial,sans-serif;
-
-    background:
-    radial-gradient(circle at top left,#6c63ff30 0%,transparent 35%),
-    radial-gradient(circle at top right,#00ff8840 0%,transparent 35%),
-    #0b0f18;
-
-    color:white;
-
-    min-height:100vh;
-
-    padding:20px;
-}
-
-/* Dashboard */
-
-.dashboard{
-    max-width:1400px;
-    margin:auto;
-}
-
-/* Topbar */
-
-.topbar{
-
-    height:70px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:20px;
-}
-
-.logo{
-
-    font-size:34px;
-
-    font-weight:700;
-
-    color:#35e36c;
-}
-
-.settings-btn{
-
-    width:50px;
-    height:50px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:
-    rgba(255,255,255,.08);
-
-    color:white;
-
-    cursor:pointer;
-
-    font-size:22px;
-
-    backdrop-filter:blur(15px);
-}
-
-/* Layout */
-
-.content{
-
-    display:grid;
-
-    grid-template-columns:
-    2fr 1fr;
-
-    gap:20px;
-}
-
-/* Hauptpanel */
-
-.main-panel{
-
-    background:
-    rgba(255,255,255,.05);
-
-    backdrop-filter:blur(20px);
-
-    border-radius:25px;
-
-    border:1px solid
-    rgba(255,255,255,.08);
-
-    padding:25px;
-
-    min-height: 780px;
-}
-
-/* Songkarte */
-
-.song-card{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    height:100%;
-}
-
-.card-header{
-
-    margin-bottom:30px;
-
-    color:#b4b8c5;
-
-    font-size:18px;
-}
-
-/* Vinyl */
-
-.vinyl-container{
-
-    margin-bottom:35px;
-}
-
-.vinyl{
-
-    width:340px;
-
-    height:340px;
-
-    border-radius:50%;
-
-    position:relative;
-
-    background:
-    radial-gradient(
-        circle,
-        #222 0 15%,
-        #111 16% 100%
-    );
-
-    box-shadow:
-    inset 0 0 0 10px rgba(255,255,255,.03),
-    inset 0 0 0 35px rgba(255,255,255,.02),
-    0 20px 50px rgba(0,0,0,.5);
-}
-
-.vinyl-center{
-
-    position:absolute;
-
-    left:50%;
-    top:50%;
-
-    transform:
-    translate(-50%,-50%);
-
-    width:90px;
-    height:90px;
-
-    border-radius:50%;
-
-    background:
-    linear-gradient(
+    font-family:Segoe UI,Tahoma,sans-serif;
+    background:linear-gradient(
         135deg,
-        #6c63ff,
-        #ff4dd2
+        #020617,
+        #071a45,
+        #101828
     );
+    color:var(--text);
+    min-height:100vh;
+}
 
+.app{
+    width:100%;
+    max-width:1500px;
+    margin:auto;
+    padding:16px;
+}
+
+/* HEADER */
+
+.app-header{
     display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-size:40px;
-
-    font-weight:bold;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:24px;
 }
 
-/* Songbereich */
+.app-header h1{
+    font-size:3rem;
+    font-weight:800;
+}
 
-#songDisplay{
+.app-header p{
+    margin-top:8px;
+    color:var(--muted);
+}
 
-    text-align:center;
-
-    min-height:120px;
-
+.header-actions{
     display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    margin-bottom:40px;
-
-    font-size:30px;
+    gap:12px;
 }
 
-#songDisplay h2{
+/* NAVIGATION */
 
-    font-size:42px;
-
-    margin-bottom:10px;
-}
-
-#songDisplay h3{
-
-    color:#35e36c;
-
-    font-size:40px;
-}
-
-/* Buttons */
-
-.actions{
-
-    display:flex;
-
-    gap:15px;
-
-    flex-wrap:wrap;
-
-    justify-content:center;
-}
-
-.actions button{
-
+.nav-btn{
     border:none;
-
+    padding:14px 20px;
     border-radius:14px;
-
-    padding:14px 24px;
-
-    color:white;
-
     cursor:pointer;
-
-    font-size:16px;
-
-    transition:.2s;
+    font-weight:600;
+    color:white;
+    background:#34435d;
 }
 
-.actions button:hover{
-
-    transform:translateY(-2px);
+.nav-btn.active{
+    background:var(--primary);
 }
 
-#playButton{
+/* GRID */
 
-    background:
-    linear-gradient(
-      135deg,
-      #7b61ff,
-      #965cff
-    );
-}
-
-#revealButton{
-
-    background:
-    linear-gradient(
-      135deg,
-      #00c6ff,
-      #4d8cff
-    );
-}
-
-#nextButton{
-
-    background:
-    linear-gradient(
-      135deg,
-      #35e36c,
-      #08c36b
-    );
-}
-
-/* Rechte Seite */
-
-.side-panel{
-
-    display:flex;
-
-    flex-direction:column;
-
+.layout-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
     gap:20px;
 }
 
-.panel-box{
-
-    background:
-    rgba(255,255,255,.05);
-
-    backdrop-filter:blur(20px);
-
-    border-radius:20px;
-
-    border:1px solid
-    rgba(255,255,255,.08);
-
-    padding:20px;
+@media(max-width:1200px){
+    .layout-grid{
+        grid-template-columns:1fr;
+    }
 }
 
-.panel-box h3{
+/* KARTEN */
 
-    margin-bottom:15px;
-
-    color:#cfd4e2;
+.card{
+    background:rgba(30,41,59,.92);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:28px;
+    padding:24px;
 }
 
-.player-row{
-
+.game-card{
     display:flex;
+    flex-direction:column;
+    gap:20px;
+}
 
-    align-items:center;
+.sidebar-card{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
 
+/* BUTTONS */
+
+.primary-btn{
+    background:var(--primary);
+    color:white;
+    border:none;
+    border-radius:16px;
+    padding:14px 22px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.primary-btn:hover{
+    background:var(--primary-hover);
+}
+
+.secondary-btn{
+    background:var(--secondary);
+    color:white;
+    border:none;
+    border-radius:16px;
+    padding:14px 22px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.success-btn{
+    background:var(--success);
+    color:white;
+    border:none;
+    border-radius:16px;
+    padding:14px 22px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.danger-outline-btn{
+    background:transparent;
+    border:1px solid var(--danger);
+    color:var(--danger);
+    border-radius:16px;
+    padding:14px;
+    width:100%;
+    cursor:pointer;
+}
+
+/* OBERER BEREICH */
+
+.game-topline{
+    display:flex;
     justify-content:space-between;
+    align-items:center;
+}
 
+.small-label{
+    font-size:.9rem;
+    color:#c9d1db;
+    letter-spacing:1px;
+}
+
+.game-topline h2{
+    font-size:2rem;
+    margin-top:8px;
+}
+
+/* PLAYER */
+
+.player-box{
+    background:#07133a;
+    border-radius:24px;
+    padding:32px;
+    display:flex;
+    align-items:center;
+    gap:50px;
+}
+
+.disc{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:
+        repeating-radial-gradient(
+            circle,
+            #111 0px,
+            #111 3px,
+            #222 4px,
+            #000 8px
+        );
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.disc-inner{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#7c3aed;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+}
+
+.timer-area{
+    flex:1;
+}
+
+.timer-display{
+    font-size:5rem;
+    font-weight:800;
+    margin:10px 0;
+}
+
+.player-actions{
+    display:flex;
     gap:10px;
+}
 
+/* PROGRESSBAR */
+
+.progress-bar{
+    height:18px;
+    border-radius:99px;
+    background:#21304b;
+    overflow:hidden;
+    margin-bottom:16px;
+}
+
+.progress-fill{
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        #35d36b,
+        #42c8da,
+        #b36cff
+    );
+}
+
+/* REVEAL BOX */
+
+.reveal-box{
+    background:#07133a;
+    border-radius:24px;
+    padding:48px;
+    text-align:center;
+}
+
+.eye-icon{
+    font-size:46px;
     margin-bottom:12px;
 }
 
-.player-row button{
+.reveal-box h3{
+    font-size:2rem;
+    margin-bottom:10px;
+}
 
-    width:35px;
-    height:35px;
+/* SPIEL BUTTONS */
 
-    border:none;
+.game-actions{
+    display:flex;
+    gap:12px;
+}
 
-    border-radius:10px;
+/* PUNKTE */
 
-    background:#35e36c;
+.points-box{
+    background:#07133a;
+    border-radius:24px;
+    padding:24px;
+}
 
+.points-box h3{
+    font-size:2rem;
+    margin-bottom:20px;
+}
+
+.points-grid{
+    display:grid;
+    grid-template-columns:1.2fr 1fr 1fr 1fr;
+    gap:14px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+input,
+select{
+    background:#081127;
+    border:1px solid #50607e;
     color:white;
-
-    cursor:pointer;
+    border-radius:16px;
+    padding:14px;
 }
 
-/* Responsive */
-
-@media(max-width:1000px){
-
-    .content{
-
-        grid-template-columns:1fr;
-    }
-
-    .side-panel{
-
-        order:-1;
-    }
+.check-card{
+    background:#202d47;
+    border:1px solid #50607e;
+    border-radius:16px;
+    padding:18px;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
 }
 
-@media(max-width:768px){
-
-    .logo{
-
-        font-size:26px;
-    }
-
-    .vinyl{
-
-        width:180px;
-        height:180px;
-    }
-
-    #songDisplay{
-
-        font-size:22px;
-    }
-
-    .actions{
-
-        flex-direction:column;
-        width:100%;
-    }
-
-    .actions button{
-
-        width:100%;
-
-        
-.vinyl{
-    animation: spin 14s linear infinite;
+.check-card small{
+    display:block;
+    color:#aeb8c8;
+    margin-top:4px;
 }
 
-@keyframes spin{
-    from{
-        transform:rotate(0deg);
-    }
+.success-btn{
+    grid-column:1;
+}
 
-    to{
-        transform:rotate(360deg);
+/* SCOREBOARD */
 
-    }
+.scoreboard{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.score-item{
+    background:#081127;
+    border-radius:16px;
+    padding:14px;
+}
+
+.score-name{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+.score-bar{
+    height:10px;
+    background:#3f4d67;
+    border-radius:50px;
+}
+
+.score-fill{
+    width:8%;
+    height:100%;
+    border-radius:50px;
+    background:linear-gradient(
+        90deg,
+        #f59e0b,
+        #ff59c7
+    );
+}
+
+/* STATUS */
+
+.status-box{
+    background:#081127;
+    border-radius:16px;
+    padding:16px;
+}
+
+/* REGELN */
+
+.rules-list{
+    padding-left:25px;
+    color:#d3d9e3;
+}
+
+/* TABS */
+
+.view{
+    display:none;
+}
+
+.view.active{
+    display:block;
 }
