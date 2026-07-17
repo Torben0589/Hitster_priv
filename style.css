@@ -1,98 +1,236 @@
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Inter,Arial,sans-serif;
 
     background:
-        linear-gradient(135deg,#121212,#1f1f1f);
+        radial-gradient(circle at top left,#6a5cff33 0%,transparent 30%),
+        radial-gradient(circle at top right,#00ff9d22 0%,transparent 30%),
+        #0d1118;
 
-    color: white;
+    color:white;
 }
 
 .container{
-    max-width:700px;
+    max-width:1200px;
     margin:auto;
-    padding:30px 20px;
+    padding:30px;
 }
+
+/* Titel */
 
 h1{
+
     text-align:center;
-    color:#29d764;
+
+    font-size:52px;
+
     margin-bottom:30px;
+
+    color:#35e36c;
+
+    text-shadow:0 0 25px rgba(53,227,108,.4);
 }
 
+/* Score */
+
 .scoreboard{
+
     display:flex;
+
     justify-content:center;
-    gap:30px;
-    margin-bottom:25px;
+
+    gap:40px;
+
+    margin-bottom:30px;
 }
 
 .scoreboard div{
-    background:#232323;
-    padding:10px 15px;
-    border-radius:12px;
-}
 
-.card{
+    background:rgba(255,255,255,.05);
 
-    background:#2b2b2b;
+    backdrop-filter:blur(15px);
 
-    border-radius:25px;
+    border:1px solid rgba(255,255,255,.08);
 
-    padding:40px;
+    padding:15px 20px;
 
-    min-height:350px;
+    border-radius:18px;
 
     box-shadow:
-        0 0 30px rgba(0,0,0,.4);
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    0 10px 30px rgba(0,0,0,.2);
 }
 
-#cardNumber{
+.scoreboard button{
 
-    color:#bbbbbb;
-    margin-bottom:30px;
-}
-
-#songDisplay{
-
-    font-size:38px;
-
-    text-align:center;
-
-    min-height:140px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.buttons{
-
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-    justify-content:center;
-}
-
-button{
-
-    background:#29d764;
-
-    color:white;
+    width:42px;
+    height:42px;
 
     border:none;
 
     border-radius:12px;
 
-    padding:15px 22px;
+    background:#35e36c;
 
-    font-size:18px;
+    color:white;
+
+    cursor:pointer;
+}
+
+/* Hauptkarte */
+
+.card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+    rgba(25,28,40,.75);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:30px;
+
+    min-height:460px;
+
+    padding:40px;
+
+    box-shadow:
+    0 25px 60px rgba(0,0,0,.4);
+}
+
+/* Vinyl */
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+    height:260px;
+
+    left:50%;
+    top:140px;
+
+    transform:translateX(-50%);
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(circle,#303030 0 15%,#121212 16% 100%);
+
+    box-shadow:
+    inset 0 0 0 10px rgba(255,255,255,.04),
+    inset 0 0 0 40px rgba(255,255,255,.02);
+
+    opacity:.8;
+}
+
+.card::after{
+
+    content:"♪";
+
+    position:absolute;
+
+    left:50%;
+    top:235px;
+
+    transform:translate(-50%,-50%);
+
+    width:70px;
+    height:70px;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+        135deg,
+        #6a5cff,
+        #ff4dd2
+    );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:38px;
+
+    color:white;
+
+    z-index:2;
+}
+
+/* Kartennummer */
+
+#cardNumber{
+
+    text-align:center;
+
+    color:#a7afc3;
+
+    font-size:22px;
+
+    margin-top:10px;
+
+    margin-bottom:120px;
+}
+
+/* Songbereich */
+
+#songDisplay{
+
+    position:relative;
+    z-index:3;
+
+    min-height:120px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    font-size:30px;
+
+    margin-top:110px;
+
+    margin-bottom:50px;
+}
+
+/* Buttons */
+
+.buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:14px;
+
+    flex-wrap:wrap;
+
+    position:relative;
+
+    z-index:3;
+}
+
+button{
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:15px 28px;
+
+    font-size:17px;
 
     cursor:pointer;
 
@@ -102,24 +240,67 @@ button{
 button:hover{
 
     transform:translateY(-2px);
+}
 
-    background:#21b556;
+#playButton{
+
+    background:
+    linear-gradient(
+        135deg,
+        #6a5cff,
+        #845eff
+    );
+
+    color:white;
+}
+
+#revealButton{
+
+    background:
+    linear-gradient(
+        135deg,
+        #00d2ff,
+        #4da1ff
+    );
+
+    color:white;
+}
+
+#nextButton{
+
+    background:
+    linear-gradient(
+        135deg,
+        #35e36c,
+        #00c06a
+    );
+
+    color:white;
 }
 
 @media(max-width:768px){
 
+    h1{
+        font-size:38px;
+    }
+
+    .card{
+        min-height:550px;
+    }
+
     .buttons{
 
         flex-direction:column;
+    }
+
+    .buttons button{
+
         width:100%;
     }
 
-    button{
-        width:100%;
-    }
+    .scoreboard{
 
-    #songDisplay{
-
-        font-size:30px;
+        flex-direction:column;
+        align-items:center;
     }
 }
