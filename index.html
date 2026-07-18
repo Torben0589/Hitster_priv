@@ -25,6 +25,57 @@
 
 <div id="game" class="view">
 
+    <div class="top-bar">
+        <button class="danger-outline-btn" onclick="confirmExit()">⬅ Menü</button>
+    </div>
+
+    <div class="card song-card">
+
+        <div class="player-layer">
+
+            <iframe id="player"></iframe>
+
+            <div id="vinyl" class="disc spinning">
+                <div class="disc-inner">♪</div>
+            </div>
+
+        </div>
+
+        <div class="song-info">
+            <h2 id="title">🔒 Titel</h2>
+            <h3 id="artist">🔒 Interpret</h3>
+            <p id="year">🔒 Jahr</p>
+        </div>
+
+    </div>
+
+    <div class="game-actions">
+        <button class="primary-btn" onclick="reveal()">Lösen</button>
+        <button class="secondary-btn" onclick="nextSong()">Nächste</button>
+    </div>
+
+    <div class="card points-box">
+
+        <h3>Punkte buchen</h3>
+
+        <div class="points-grid">
+
+            <div class="point-card" data-points="4">Titel +4</div>
+            <div class="point-card" data-points="2">Interpret +2</div>
+            <div class="point-card" data-points="2">Jahr +2</div>
+
+            <button class="success-btn" onclick="bookPoints()">Buchen</button>
+
+        </div>
+
+    </div>
+
+    <div class="card scoreboard">
+        <div id="scoreboard"></div>
+    </div>
+
+</div>
+
 <!-- ================= DATABASE ================= -->
 
 <div id="database" class="view">
@@ -49,7 +100,6 @@
     <div class="card">
 
         <h3>📋 Songs</h3>
-
         <div id="song-list"></div>
 
     </div>
@@ -65,68 +115,10 @@
     </div>
 
 </div>
-    
-    <!-- TOP BAR -->
-    <div class="top-bar">
-        <button class="danger-outline-btn" onclick="confirmExit()">⬅ Menü</button>
-    </div>
-
-    <!-- SONG CARD -->
-    <div class="card song-card">
-
-        <div class="player-layer">
-
-            <iframe id="player"></iframe>
-
-            <div id="vinyl" class="disc spinning">
-                <div class="disc-inner">♪</div>
-            </div>
-
-        </div>
-
-        <div class="song-info">
-            <h2 id="title">🔒 Titel</h2>
-            <h3 id="artist">🔒 Interpret</h3>
-            <p id="year">🔒 Jahr</p>
-        </div>
-
-    </div>
-
-    <!-- ACTIONS -->
-    <div class="game-actions">
-
-        <button class="primary-btn" onclick="reveal()">Lösen</button>
-        <button class="secondary-btn" onclick="nextSong()">Nächste</button>
-
-    </div>
-
-    <!-- POINTS -->
-    <div class="card points-box">
-
-        <h3>Punkte buchen</h3>
-
-        <div class="points-grid">
-
-            <div class="point-card" data-points="4">Titel +4</div>
-            <div class="point-card" data-points="2">Interpret +2</div>
-            <div class="point-card" data-points="2">Jahr +2</div>
-
-            <button class="success-btn" onclick="bookPoints()">Buchen</button>
-
-        </div>
-
-    </div>
-
-    <!-- SCOREBOARD -->
-    <div class="card scoreboard">
-
-        <div id="scoreboard"></div>
-
-    </div>
-
-</div>
 
 <script>
+
+/* ================= DATA ================= */
 
 let songs = JSON.parse(localStorage.getItem("songs") || "[]");
 
@@ -137,30 +129,48 @@ let currentTeam = 0;
 let currentSong = null;
 let revealed = false;
 
-/* ELEMENTE */
+/* ================= ELEMENTS ================= */
+
 const player = document.getElementById("player");
 const vinyl = document.getElementById("vinyl");
 
-/* NORMALIZE */
+/* ================= HELPERS ================= */
+
 function normalize(url){
     return url.replace("music.apple.com","embed.music.apple.com");
 }
 
-/* MENU */
+/* ================= NAVIGATION ================= */
+
 function startGame(){
-    document.getElementById("menu").classList.remove("active");
-    document.getElementById("game").classList.add("active");
+    switchView("game");
     nextSong();
 }
 
-/* EXIT */
+function openDatabase(){
+    switchView("database");
+    renderSongs();
+}
+
+function goMenu(){
+    switchView("menu");
+}
+
+function switchView(view){
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+    document.getElementById(view).classList.add("active");
+}
+
+/* ================= EXIT ================= */
+
 function confirmExit(){
     if(confirm("Spiel wirklich verlassen? Fortschritt geht verloren.")){
         location.reload();
     }
 }
 
-/* SONG */
+/* ================= GAME ================= */
+
 function nextSong(){
 
     if(!songs.length){
@@ -186,7 +196,6 @@ function nextSong(){
     });
 }
 
-/* REVEAL */
 function reveal(){
 
     if(!currentSong || revealed) return;
@@ -203,7 +212,8 @@ function reveal(){
     document.getElementById("year").innerText = currentSong.year;
 }
 
-/* POINTS */
+/* ================= POINTS ================= */
+
 document.querySelectorAll(".point-card").forEach(el=>{
     el.onclick = ()=> el.classList.toggle("selected");
 });
@@ -225,7 +235,8 @@ function bookPoints(){
     updateScore();
 }
 
-/* SCOREBOARD */
+/* ================= SCOREBOARD ================= */
+
 function updateScore(){
 
     let html = "";
@@ -248,6 +259,90 @@ function updateScore(){
 }
 
 updateScore();
+
+/* ================= DATABASE ================= */
+
+let editIndex = null;
+
+function saveSong(){
+
+    let song = {
+        title: document.getElementById("db-title").value,
+        artist: document.getElementById("db-artist").value,
+        year: document.getElementById("db-year").value,
+        url: document.getElementById("db-url").value
+    };
+
+    if(editIndex !== null){
+        songs[editIndex] = song;
+        editIndex = null;
+    } else {
+        songs.push(song);
+    }
+
+    localStorage.setItem("songs", JSON.stringify(songs));
+
+    clearForm();
+    renderSongs();
+}
+
+function renderSongs(){
+
+    let html = "";
+
+    songs.forEach((s,i)=>{
+
+        html += `
+        <div class="card" style="margin-top:10px">
+            <strong>${s.title}</strong><br>
+            ${s.artist} (${s.year})
+
+            <div style="margin-top:10px;">
+                <button onclick="editSong(${i})">✏️</button>
+                <button onclick="deleteSong(${i})">🗑️</button>
+            </div>
+        </div>
+        `;
+    });
+
+    document.getElementById("song-list").innerHTML = html;
+}
+
+function editSong(i){
+    let s = songs[i];
+
+    document.getElementById("db-title").value = s.title;
+    document.getElementById("db-artist").value = s.artist;
+    document.getElementById("db-year").value = s.year;
+    document.getElementById("db-url").value = s.url;
+
+    editIndex = i;
+}
+
+function deleteSong(i){
+    songs.splice(i,1);
+    localStorage.setItem("songs", JSON.stringify(songs));
+    renderSongs();
+}
+
+function clearForm(){
+    document.getElementById("db-title").value = "";
+    document.getElementById("db-artist").value = "";
+    document.getElementById("db-year").value = "";
+    document.getElementById("db-url").value = "";
+}
+
+function importSongs(){
+    try{
+        let data = JSON.parse(document.getElementById("import-data").value);
+        songs = songs.concat(data);
+        localStorage.setItem("songs", JSON.stringify(songs));
+        renderSongs();
+        alert("Import erfolgreich!");
+    } catch(e){
+        alert("Fehler im JSON!");
+    }
+}
 
 </script>
 
