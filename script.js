@@ -247,3 +247,8 @@ function importSongs(){
         alert("Fehler im JSON!");
     }
 }
+function openDatabase(){
+    document.getElementById("menu").classList.remove("active");
+    document.getElementById("database").classList.add("active");
+    renderSongs();
+}
