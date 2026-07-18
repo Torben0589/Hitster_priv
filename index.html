@@ -25,6 +25,47 @@
 
 <div id="game" class="view">
 
+<!-- ================= DATABASE ================= -->
+
+<div id="database" class="view">
+
+    <div class="top-bar">
+        <button class="danger-outline-btn" onclick="goMenu()">⬅ Menü</button>
+    </div>
+
+    <div class="card">
+
+        <h2>🎵 Song Datenbank</h2>
+
+        <input id="db-title" placeholder="Titel">
+        <input id="db-artist" placeholder="Interpret">
+        <input id="db-year" placeholder="Jahr">
+        <input id="db-url" placeholder="Apple Music Link">
+
+        <button class="primary-btn" onclick="saveSong()">Speichern</button>
+
+    </div>
+
+    <div class="card">
+
+        <h3>📋 Songs</h3>
+
+        <div id="song-list"></div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>📥 Externe Daten laden</h3>
+
+        <textarea id="import-data" placeholder='[{"title":"...","artist":"...","year":"...","url":"..."}]'></textarea>
+
+        <button class="secondary-btn" onclick="importSongs()">Importieren</button>
+
+    </div>
+
+</div>
+    
     <!-- TOP BAR -->
     <div class="top-bar">
         <button class="danger-outline-btn" onclick="confirmExit()">⬅ Menü</button>
