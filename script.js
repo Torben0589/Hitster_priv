@@ -252,3 +252,17 @@ function openDatabase(){
     document.getElementById("database").classList.add("active");
     renderSongs();
 }
+function startPlayback(){
+
+    if(!currentSong) return;
+
+    // Player sichtbar machen
+    player.style.opacity = "1";
+
+    // Vinyl stoppen
+    vinyl.classList.remove("spinning");
+
+    // OPTIONAL: leicht ausblenden statt hart weg
+    vinyl.style.opacity = "0.2";
+
+}
