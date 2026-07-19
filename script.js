@@ -1,153 +1,160 @@
-let songs = [];
+
+/* ================= DATA ================= */
+
+let songs = JSON.parse(localStorage.getItem("songs") || "[]");
+
+let teams = ["Team 1", "Team 2"];
+let scores = [0, 0];
+let currentTeam = 0;
+
 let currentSong = null;
-
-let score1 = 0;
-let score2 = 0;
-
-
-async function loadSongs() {
-
-    try {
-
-        const response =
-            await fetch("songs.json");
-
-        songs =
-            await response.json();
-
-        nextSong();
-
-    }
-    catch(error){
-
-        alert(
-            "songs.json konnte nicht geladen werden."
-        );
-
-        console.error(error);
-    }
-}
-
-
-function addPoint(player){
-
-    if(player === 1){
-
-        score1++;
-
-        document.getElementById("score1")
-            .textContent = score1;
-    }
-
-    if(player === 2){
-
-        score2++;
-
-        document.getElementById("score2")
-            .textContent = score2;
-    }
-}
-
-
-function nextSong(){
-
-    if(songs.length === 0){
-        return;
-    }
-
-    const index =
-        Math.floor(
-            Math.random() * songs.length
-        );
-
-    currentSong = songs[index];
-
-    document.getElementById("cardNumber")
-        .textContent =
-        "Karte #" + (index + 1);
-
-    document.getElementById("songDisplay")
-        .innerHTML =
-        "🎵 Unbekannter Song";
-}
-
-
-function revealSong(){
-
-    if(!currentSong){
-        return;
-    }
-
-    document.getElementById("songDisplay")
-        .innerHTML =
-        `
-        <div>
-            <h2>${currentSong.artist}</h2>
-            <p>${currentSong.title}</p>
-            <h3>${currentSong.year}</h3>
-        </div>
-        `;
-}
-
-
-function searchSong(){
-
-    if(!currentSong){
-        return;
-    }
-
-    const searchText =
-        encodeURIComponent(
-            currentSong.artist +
-            " " +
-            currentSong.title
-        );
-
-    window.open(
-        `https://music.apple.com/de/search?term=${searchText}`,
-        "_blank"
-    );
-}
-
-
-document
-.getElementById("playButton")
-.addEventListener(
-    "click",
-    searchSong
-);
-
-document
-.getElementById("revealButton")
-.addEventListener(
-    "click",
-    revealSong
-);
-
-document
-.getElementById("nextButton")
-.addEventListener(
-    "click",
-    nextSong
-);
-
-loadSongs();
+let revealed = false;
 let editIndex = null;
 
-/* NAVIGATION */
+/* ================= ELEMENTS ================= */
+
+const player = document.getElementById("player");
+const vinyl = document.getElementById("vinyl");
+
+/* ================= HELPERS ================= */
+
+function normalize(url){
+    return url.replace("music.apple.com","embed.music.apple.com");
+}
+
+/* ================= NAVIGATION ================= */
+
+function switchView(view){
+    document.querySelectorAll(".view").forEach(v=>{
+        v.classList.remove("active");
+    });
+
+    document.getElementById(view).classList.add("active");
+}
+
+function startGame(){
+    switchView("game");
+    nextSong();
+}
 
 function openDatabase(){
-    document.getElementById("menu").classList.remove("active");
-    document.getElementById("database").classList.add("active");
+    switchView("database");
     renderSongs();
 }
 
 function goMenu(){
-    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
-    document.getElementById("menu").classList.add("active");
+    switchView("menu");
 }
 
-/* SAVE SONG */
+/* ================= GAME ================= */
+
+function nextSong(){
+
+    if(!songs.length){
+        alert("Keine Songs vorhanden!");
+        return;
+    }
+
+    const index = Math.floor(Math.random() * songs.length);
+    currentSong = songs[index];
+    revealed = false;
+
+    player.src = normalize(currentSong.url);
+    player.style.opacity = "0";
+
+    vinyl.style.display = "flex";
+    vinyl.style.opacity = "1";
+    vinyl.style.pointerEvents = "auto";
+    vinyl.classList.add("spinning");
+
+    document.getElementById("title").innerText = "🔒 Titel";
+    document.getElementById("artist").innerText = "🔒 Interpret";
+    document.getElementById("year").innerText = "🔒 Jahr";
+
+    document.querySelectorAll(".point-card").forEach(el=>{
+        el.classList.remove("selected");
+    });
+}
+
+/* START PLAYBACK (User Interaction Trick) */
+
+function startPlayback(){
+
+    if(!currentSong) return;
+
+    player.style.opacity = "1";
+
+    vinyl.classList.remove("spinning");
+    vinyl.style.opacity = "0.2";
+    vinyl.style.pointerEvents = "none";
+}
+
+/* REVEAL */
+
+function reveal(){
+
+    if(!currentSong || revealed) return;
+
+    revealed = true;
+
+    vinyl.style.display = "none";
+
+    player.style.opacity = "1";
+
+    document.getElementById("title").innerText = currentSong.title;
+    document.getElementById("artist").innerText = currentSong.artist;
+    document.getElementById("year").innerText = currentSong.year;
+}
+
+/* ================= POINTS ================= */
+
+document.querySelectorAll(".point-card").forEach(el=>{
+    el.onclick = ()=> el.classList.toggle("selected");
+});
+
+function bookPoints(){
+
+    if(!revealed) return;
+
+    let pts = 0;
+
+    document.querySelectorAll(".point-card.selected").forEach(el=>{
+        pts += parseInt(el.dataset.points);
+    });
+
+    scores[currentTeam] += pts;
+
+    currentTeam = (currentTeam + 1) % teams.length;
+
+    updateScore();
+}
+
+/* ================= SCOREBOARD ================= */
+
+function updateScore(){
+
+    let html = "";
+
+    teams.forEach((t,i)=>{
+
+        html += `
+        <div class="score-item ${i === currentTeam ? 'active-team' : ''}">
+            <strong>${t}</strong>
+            <span>${scores[i]}</span>
+
+            <div class="score-bar">
+                <div class="score-fill" style="width:${scores[i]*5}px"></div>
+            </div>
+        </div>
+        `;
+    });
+
+    document.getElementById("scoreboard").innerHTML = html;
+}
+
+updateScore();
+
+/* ================= DATABASE ================= */
 
 function saveSong(){
 
@@ -171,8 +178,6 @@ function saveSong(){
     renderSongs();
 }
 
-/* LISTE */
-
 function renderSongs(){
 
     let html = "";
@@ -181,7 +186,6 @@ function renderSongs(){
 
         html += `
         <div class="card" style="margin-top:10px">
-
             <strong>${s.title}</strong><br>
             ${s.artist} (${s.year})
 
@@ -189,15 +193,12 @@ function renderSongs(){
                 <button onclick="editSong(${i})">✏️</button>
                 <button onclick="deleteSong(${i})">🗑️</button>
             </div>
-
         </div>
         `;
     });
 
     document.getElementById("song-list").innerHTML = html;
 }
-
-/* EDIT */
 
 function editSong(i){
     let s = songs[i];
@@ -210,15 +211,11 @@ function editSong(i){
     editIndex = i;
 }
 
-/* DELETE */
-
 function deleteSong(i){
     songs.splice(i,1);
     localStorage.setItem("songs", JSON.stringify(songs));
     renderSongs();
 }
-
-/* CLEAR */
 
 function clearForm(){
     document.getElementById("db-title").value = "";
@@ -227,12 +224,9 @@ function clearForm(){
     document.getElementById("db-url").value = "";
 }
 
-/* IMPORT */
-
 function importSongs(){
 
     try{
-
         let data = JSON.parse(document.getElementById("import-data").value);
 
         songs = songs.concat(data);
@@ -246,23 +240,4 @@ function importSongs(){
     } catch(e){
         alert("Fehler im JSON!");
     }
-}
-function openDatabase(){
-    document.getElementById("menu").classList.remove("active");
-    document.getElementById("database").classList.add("active");
-    renderSongs();
-}
-function startPlayback(){
-
-    if(!currentSong) return;
-
-    // Player sichtbar machen
-    player.style.opacity = "1";
-
-    // Vinyl stoppen
-    vinyl.classList.remove("spinning");
-
-    // OPTIONAL: leicht ausblenden statt hart weg
-    vinyl.style.opacity = "0.2";
-
 }
